@@ -1,0 +1,4 @@
+deployment:
+ tasks:
+ - export DEPLOYPATH=/home/qcommerce/public_html/blockchainsite/
+ - /bin/cp -r * $DEPLOYPATH
