@@ -10,6 +10,7 @@ class Game extends Model
 
     protected $fillable = [
         'id',
+        'user_id',
         'name',
         'description',
         'image',
@@ -20,8 +21,13 @@ class Game extends Model
         'nft',
         'f2p',
         'p2e',
-        // 'p2e_score'
+        // 'p2e_score',
+        'is_approved'
     ];
+
+    public function user() {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 
     public function reviews() {
         return $this->hasMany(Review::class, 'game_id', 'id');

@@ -14,9 +14,14 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ action('GameController@create') }}">Add Game</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ action('AnnouncementController@create') }}">Announcement</a>
-                    </li>
+                    @if (Auth::user()->is_admin)
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ action('GameController@pending') }}">Pending Games</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ action('AnnouncementController@create') }}">Announcement</a>
+                        </li>
+                    @endif
                     <li class="nav-item">
                         <a class="nav-link" href="{{ action('LoginController@logout') }}">Log Out</a>
                     </li>

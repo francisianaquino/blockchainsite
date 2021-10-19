@@ -40,7 +40,6 @@
 @endpush
 
 @section('content')
-    @include('partials.navbar')
     <div class="mt-5" id="container">
 
         @if(Session::has('success'))

@@ -147,8 +147,6 @@
 @endpush
 
 @section('content')
-    @include('partials.navbar')
-
     <div class="container">
         <div class="details">
             <div>
@@ -216,10 +214,10 @@
                                     <div class="text-center mb-4">
                                         <h4>Rating Overview</h4>
                                         <br>
-                                        <h1 class="rating-number">{{$average_stars}}<small>/5</small></h1>
+                                        <h1 class="rating-number">{{round($average_stars, 1)}}<small>/5</small></h1>
                                         <div class="ratings">
                                             <div class="empty-stars"></div>
-                                            <div class="full-stars" style="width:{{($average_stars/5)*100}}%"></div>
+                                            <div class="full-stars" style="width:{{round(($average_stars/5)*100, 2)}}%"></div>
                                         </div>
                                         <br>
                                         <span class="text-muted">{{$total_ratings}} ratings</span>
@@ -228,35 +226,35 @@
                                         <div class="rating-progress">
                                             <span class="rating-grade">5 <i class="fa fa-star" aria-hidden="true"></i></span>
                                             <div class="progress">
-                                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{($ratings['5_stars']/$total_ratings)*100}}%" aria-valuenow="{{($ratings['5_stars']/$total_ratings)*100}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{$total_ratings > 0 ? ($ratings['5_stars']/$total_ratings)*100 : 0}}%" aria-valuenow="{{$total_ratings > 0 ? ($ratings['5_stars']/$total_ratings)*100 : 0}}" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
                                             <span class="rating-value">{{$ratings['5_stars']}}</span>
                                         </div>
                                         <div class="rating-progress">
                                             <span class="rating-grade">4 <i class="fa fa-star" aria-hidden="true"></i></span>
                                             <div class="progress">
-                                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{($ratings['4_stars']/$total_ratings)*100}}%" aria-valuenow="{{($ratings['4_stars']/$total_ratings)*100}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{$total_ratings > 0 ? ($ratings['4_stars']/$total_ratings)*100 : 0}}%" aria-valuenow="{{$total_ratings > 0 ? ($ratings['4_stars']/$total_ratings)*100 : 0}}" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
                                             <span class="rating-value">{{$ratings['4_stars']}}</span>
                                         </div>
                                         <div class="rating-progress">
                                             <span class="rating-grade">3 <i class="fa fa-star" aria-hidden="true"></i></span>
                                             <div class="progress">
-                                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{($ratings['3_stars']/$total_ratings)*100}}%" aria-valuenow="{{($ratings['3_stars']/$total_ratings)*100}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{$total_ratings > 0 ? ($ratings['3_stars']/$total_ratings)*100 : 0}}%" aria-valuenow="{{$total_ratings > 0 ? ($ratings['3_stars']/$total_ratings)*100 : 0}}" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
                                             <span class="rating-value">{{$ratings['3_stars']}}</span>
                                         </div>
                                         <div class="rating-progress">
                                             <span class="rating-grade">2 <i class="fa fa-star" aria-hidden="true"></i></span>
                                             <div class="progress">
-                                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{($ratings['2_stars']/$total_ratings)*100}}%" aria-valuenow="{{($ratings['2_stars']/$total_ratings)*100}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{$total_ratings > 0 ? ($ratings['2_stars']/$total_ratings)*100 : 0}}%" aria-valuenow="{{$total_ratings > 0 ? ($ratings['2_stars']/$total_ratings)*100 : 0}}" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
                                             <span class="rating-value">{{$ratings['2_stars']}}</span>
                                         </div>
                                         <div class="rating-progress">
                                             <span class="rating-grade">1 <i class="fa fa-star" aria-hidden="true"></i></span>
                                             <div class="progress">
-                                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{($ratings['1_stars']/$total_ratings)*100}}%" aria-valuenow="{{($ratings['1_stars']/$total_ratings)*100}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{$total_ratings > 0 ? ($ratings['1_stars']/$total_ratings)*100 : 0}}%" aria-valuenow="{{$total_ratings > 0 ? ($ratings['1_stars']/$total_ratings)*100 : 0}}" aria-valuemin="0" aria-valuemax="100"></div>
                                             </div>
                                             <span class="rating-value">{{$ratings['1_stars']}}</span>
                                         </div>

@@ -41,7 +41,6 @@
 @endpush
 
 @section('content')
-    @include('partials.navbar')
     <div class="mt-5" id="container">
 
         <!-- Success message -->
@@ -93,7 +92,7 @@
             <div class="form-group">
                 <label>Blockchain</label>
                 <select class="select2 form-control @error('blockchain') is-invalid @enderror" name="blockchain[]" id="blockchain" multiple="multiple">
-                    <option value="Etheruem">Etheruem</option>
+                    <option value="Ethereum">Ethereum</option>
                     <option value="Enjin">Enjin</option>
                     <option value="Bitcoin">Bitcoin</option>
                     <option value="Polygon">Polygon</option>

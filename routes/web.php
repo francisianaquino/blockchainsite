@@ -19,20 +19,17 @@ Route::get('/', function () {
 
 Route::get('/game', 'GameController@index');
 
-Route::group(['middleware' => 'auth'], function() {
+Route::group(['middleware' => ['auth', 'verified']], function() {
     Route::get('/game/create', 'GameController@create');
     Route::post('/game', 'GameController@store');
+    Route::get('/game/pending', 'GameController@pending');
+    Route::get('/game/pending/{id}', 'GameController@approve');
+    
     Route::get('/announcement/create', 'AnnouncementController@create');
     Route::post('/announcement', 'AnnouncementController@store');
-    Route::post('/review', 'ReviewController@store');
 
-    Route::get('/logout', 'LoginController@logout');
+    Route::post('/review', 'ReviewController@store');
 });
 
 Route::get('/game/{id}', 'GameController@show');
-
-Route::get('/login', 'LoginController@index')->name('login');
-Route::post('/login', 'LoginController@authenticate');
-
-Route::get('/register', 'RegisterController@index');
-Route::post('/register', 'RegisterController@register');
+Auth::routes(['verify' => true]);

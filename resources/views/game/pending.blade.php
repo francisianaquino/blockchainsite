@@ -3,24 +3,10 @@
 @push('stylesheets')
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
     <link rel="stylesheet" href="{{ asset('css/default.css') }}">
-    <style>
-        .announcement {
-            text-align: center;
-            margin: 20px;
-            padding: 10px;
-            border: 1px solid black;
-        }
-    </style>
 @endpush
 
 @section('content')
     <div class="container">
-        @if($announcement)
-        <div class="announcement">
-            <h3>{{$announcement->title}}</h3>
-            <p>{{$announcement->message}}</p>
-        </div>
-        @endif
         <div class="list_h1">
             <h1>Top 50 Blockchain Games List</h1>
         </div>
@@ -37,6 +23,7 @@
                     <th>NFT</th>
                     <th>F2P</th>
                     <th>P2E</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -52,7 +39,7 @@
             var table = $('.data-table').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ action('GameController@index') }}",
+                ajax: "{{ action('GameController@pending') }}",
                 columns: [
                     {data: 'id', name: 'id'},
                     {data: 'name', name: 'name'},
@@ -62,7 +49,8 @@
                     {data: 'status', name: 'status'},
                     {data: 'nft', name: 'nft'},
                     {data: 'f2p', name: 'f2p'},
-                    {data: 'p2e', name: 'p2e'}
+                    {data: 'p2e', name: 'p2e'},
+                    {data: 'action', name: 'action'},
                 ],
                 "paging":   false,
                 "ordering": false,

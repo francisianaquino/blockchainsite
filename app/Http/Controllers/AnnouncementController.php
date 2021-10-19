@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Announcement;
+use Auth;
 
 use Illuminate\Http\Request;
 
@@ -24,6 +25,9 @@ class AnnouncementController extends Controller
      */
     public function create()
     {
+        if (Auth::user()->is_admin != 1) {
+            abort(401, 'You are not authorized to make announcements');
+        }
         return view('announcement.create');
     }
 
@@ -40,7 +44,10 @@ class AnnouncementController extends Controller
             'message' => 'required|string'
         ]);
 
-        Announcement::create($request->all());
+        $data = $request->all();
+        $data['user_id'] = $request->user()->id;
+
+        Announcement::create($data);
         return back()->with('success', 'Announcement Added');
     }
 

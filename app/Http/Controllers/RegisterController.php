@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\User;
 use Hash;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 use Illuminate\Http\Request;
 
@@ -29,5 +30,21 @@ class RegisterController extends Controller
         ]);
          
         return redirect('login')->withSuccess('You have signed-in');
+    }
+
+    public function showEmailVerificationNotice() {
+        return view('auth.verify');
+    }
+
+    public function verifyEmail(EmailVerificationRequest $request) {
+        $request->fulfill();
+    
+        return redirect('/');
+    }
+
+    public function resendVerificationEmail(Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+    
+        return back()->with('message', 'Verification link sent!');
     }
 }
