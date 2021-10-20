@@ -199,14 +199,6 @@
                 @enderror
             </div>
 
-            <!-- <div class="form-group">
-                <label>P2E Score</label>
-                <input type="text" class="form-control @error('p2e_score') is-invalid @enderror" name="p2e_score" id="p2e_score" placeholder="" value="{{ old('p2e_score') }}">
-                @error('p2e_score')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div> -->
-
             <div class="text-right">
                 <a class="btn btn-danger" href="{{action('GameController@index')}}" role="button">Cancel</a>
                 <input type="submit" name="send" value="Submit" class="btn btn-primary">

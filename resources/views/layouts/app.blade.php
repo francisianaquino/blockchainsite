@@ -57,20 +57,17 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ action('GameController@create') }}">Add Game</a>
                                 </li>
-                                @if (Auth::user()->is_admin)
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ action('GameController@pending') }}">Pending Games</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ action('AnnouncementController@create') }}">Announcement</a>
-                                    </li>
-                                @endif
                                 <li class="nav-item dropdown">
                                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                         {{ Auth::user()->name }}
                                     </a>
 
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                        @if (Auth::user()->is_admin)
+                                            <a class="dropdown-item" href="{{ action('GameController@pending') }}">Pending Games</a>
+                                            <a class="dropdown-item" href="{{ action('AnnouncementController@create') }}">Announcement</a>
+                                            <a class="dropdown-item" href="{{ action('UserController@index') }}">User Management</a>
+                                        @endif
                                         <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
                                                         document.getElementById('logout-form').submit();">

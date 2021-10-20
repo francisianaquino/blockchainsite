@@ -29,6 +29,11 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
     Route::post('/announcement', 'AnnouncementController@store');
 
     Route::post('/review', 'ReviewController@store');
+
+    Route::get('/user', 'UserController@index');
+    Route::get('/user/{id}/edit', 'UserController@edit');
+    Route::post('/user/{id}/update', 'UserController@update');
+    Route::get('/user/{id}/destroy', 'UserController@destroy');
 });
 
 Route::get('/game/{id}', 'GameController@show');
