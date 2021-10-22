@@ -188,17 +188,6 @@
                 @enderror
             </div>
 
-            <div class="form-group">
-                <label>P2E</label>
-                <select class="select2 form-control @error('p2e') is-invalid @enderror" name="p2e[]" id="p2e" multiple="multiple">
-                    <option value="NFT-P2E">NFT Play-To-Earn</option>
-                    <option value="Crypto-P2E">Crypto Play-To-Earn</option>
-                </select>
-                @error('p2e')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
             <div class="text-right">
                 <a class="btn btn-danger" href="{{action('GameController@index')}}" role="button">Cancel</a>
                 <input type="submit" name="send" value="Submit" class="btn btn-primary">

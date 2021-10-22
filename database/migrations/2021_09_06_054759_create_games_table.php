@@ -25,7 +25,6 @@ class CreateGamesTable extends Migration
             $table->string('status');
             $table->boolean('nft');
             $table->string('f2p');
-            $table->string('p2e')->nullable();
             $table->boolean('is_approved')->default(0);
             $table->timestamps();
 

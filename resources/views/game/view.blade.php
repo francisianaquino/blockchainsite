@@ -193,7 +193,7 @@
                                     </div>
                                     <div class="dapp_devices">
                                         @foreach($device as $dev)
-                                        <a data-toggle="tooltip" data-placement="top" title="{{ucfirst($dev)}}" href="#" data-original-title="{{ucfirst($dev)}}">
+                                            <a data-toggle="tooltip" data-placement="top" title="{{ucfirst($dev)}}" href="#" data-original-title="{{ucfirst($dev)}}">
                                                 <div class="lazy deviceimg {{ucfirst($dev)}} loaded" data-loader="bgLoader"></div>
                                             </a>
                                         @endforeach
@@ -202,7 +202,6 @@
                                     <div class="dapp_nft_p2e">
                                         <div><span>NFT Support:</span>{!!$nft!!}</div>
                                         <div><span>Free-To-Play:</span>{!!$f2p!!}</div>
-                                        <div><span>Play-To-Earn:</span>{!!$p2e!!}</div>
                                     </div>
                                     <hr />
                                 </div>
@@ -214,7 +213,7 @@
                                     <div class="text-center mb-4">
                                         <h4>Rating Overview</h4>
                                         <br>
-                                        <h1 class="rating-number">{{round($average_stars, 1)}}<small>/5</small></h1>
+                                        <h1 class="rating-number">{{number_format(round($average_stars, 1), 1)}}<small>/5</small></h1>
                                         <div class="ratings">
                                             <div class="empty-stars"></div>
                                             <div class="full-stars" style="width:{{round(($average_stars/5)*100, 2)}}%"></div>
@@ -272,7 +271,7 @@
                                 @foreach($game->reviews as $review)
                                 <div class="review row">
                                     <div class="col-sm-3 col-md-2">
-                                        <img src="http://dummyimage.com/60x60/666/ffffff&text=No+Image" class="img-rounded">
+                                        <img src="{{ asset('images/user-profile/'.$review->user->image) }}" class="rounded-circle" width="80">
                                         <div class="review-block-name"><a href="#">{{$review->user->name}}</a></div>
                                         <div class="review-block-date">{{$review->created_at->format("F j, Y, g:i a")}}</div>
                                     </div>

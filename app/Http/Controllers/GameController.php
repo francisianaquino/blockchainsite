@@ -130,25 +130,16 @@ class GameController extends Controller
                     }
                     return $html;
                 })
-                ->editColumn('p2e', function(Game $game) {
-                    $html = '';
-                    if (isset($game->p2e)) {
-                        $p2e = explode(',', $game->p2e);
-                        foreach ($p2e as $p) {
-                            if (strtolower($p) == 'nft-p2e') {
-                                $html .= '<a href="#" data-toggle="tooltip" data-placement="top" title="NFT Play-To-Earn" data-original-title="NFT Play-To-Earn">NFT</a>';
-                            }
-                            else if (strtolower($p) == 'crypto-p2e') {
-                                $html .= '<a href="" data-toggle="tooltip" data-placement="top" title="Crypto Play-To-Earn" data-original-title="Crypto Play-To-Earn">Crypto</a>';
-                            }
-                        }
-                    }
-                    else {
-                        $html .= '<a href="#" class="none" data-toggle="tooltip" data-placement="top" title="No Play-To-Earn" data-original-title="No Play-To-Earn">No</a>';
-                    }
-                    return $html;
+                ->addColumn('rating', function(Game $game) {
+                    return '<div class="ratings visible" data-toggle="tooltip" data-placement="top" title="'.number_format($game->rating(), 1).'" data-original-title="'.number_format($game->rating(), 1).'">
+                                <div class="empty-stars"></div>
+                                <div class="full-stars" style="width:'.round(($game->rating()/5)*100, 2).'%"></div>
+                            </div>
+                            <div class="average">
+                                ('.$game->reviews()->count().')
+                            </div>';
                 })
-                ->rawColumns(['name', 'genre', 'blockchain', 'device', 'status', 'nft', 'f2p', 'p2e'])
+                ->rawColumns(['name', 'genre', 'blockchain', 'device', 'status', 'nft', 'f2p', 'rating'])
                 ->make(true);
         }
 
@@ -186,8 +177,7 @@ class GameController extends Controller
             'device' => 'required|array',
             'status' => 'required|string',
             'nft' => 'required|boolean',
-            'f2p' => 'required|string',
-            'p2e' => 'nullable|array'
+            'f2p' => 'required|string'
         ]);
 
         $imageName = str_replace(' ', '_', $request->name).'.'.$request->image->getClientOriginalExtension();
@@ -198,9 +188,6 @@ class GameController extends Controller
         $data['image'] = $imageName;
         $data['blockchain'] = implode(',', $request->blockchain);
         $data['device'] = implode(',', $request->device);
-        if (isset($request->p2e)) {
-            $data['p2e'] = implode(',', $request->p2e);
-        }
         Game::create($data);
 
         return back()->with('success', 'Game Added');
@@ -262,21 +249,6 @@ class GameController extends Controller
             $f2p = '<a href="#" class="none" data-toggle="tooltip" data-placement="top" title="Game Required"" data-original-title="Game Required">Game</a>';
         }
 
-        $p2e = '';
-        if (isset($game->p2e)) {
-            foreach (explode(',', $game->p2e) as $p) {
-                if (strtolower($p) == 'nft-p2e') {
-                    $p2e .= '<a href="#" data-toggle="tooltip" data-placement="top" title="NFT Play-To-Earn" data-original-title="NFT Play-To-Earn">NFT</a>';
-                }
-                else if (strtolower($p) == 'crypto-p2e') {
-                    $p2e .= '<a href="" data-toggle="tooltip" data-placement="top" title="Crypto Play-To-Earn" data-original-title="Crypto Play-To-Earn">Crypto</a>';
-                }
-            }
-        }
-        else {
-            $p2e .= '<a href="#" class="none" data-toggle="tooltip" data-placement="top" title="No Play-To-Earn" data-original-title="No Play-To-Earn">No</a>';
-        }
-
         $total_ratings = $game->reviews()->count();
         $ratings = [
             '5_stars' => 0,
@@ -301,7 +273,6 @@ class GameController extends Controller
             'device' => $device,
             'nft' => $nft,
             'f2p' => $f2p,
-            'p2e' => $p2e,
             'total_ratings' => $total_ratings,
             'ratings' => $ratings,
             'average_stars' => $average_stars
@@ -456,28 +427,19 @@ class GameController extends Controller
                     }
                     return $html;
                 })
-                ->editColumn('p2e', function(Game $game) {
-                    $html = '';
-                    if (isset($game->p2e)) {
-                        $p2e = explode(',', $game->p2e);
-                        foreach ($p2e as $p) {
-                            if (strtolower($p) == 'nft-p2e') {
-                                $html .= '<a href="#" data-toggle="tooltip" data-placement="top" title="NFT Play-To-Earn" data-original-title="NFT Play-To-Earn">NFT</a>';
-                            }
-                            else if (strtolower($p) == 'crypto-p2e') {
-                                $html .= '<a href="" data-toggle="tooltip" data-placement="top" title="Crypto Play-To-Earn" data-original-title="Crypto Play-To-Earn">Crypto</a>';
-                            }
-                        }
-                    }
-                    else {
-                        $html .= '<a href="#" class="none" data-toggle="tooltip" data-placement="top" title="No Play-To-Earn" data-original-title="No Play-To-Earn">No</a>';
-                    }
-                    return $html;
+                ->addColumn('rating', function(Game $game) {
+                    return '<div class="ratings visible" data-toggle="tooltip" data-placement="top" title="'.number_format($game->rating(), 1).'" data-original-title="'.number_format($game->rating(), 1).'">
+                                <div class="empty-stars"></div>
+                                <div class="full-stars" style="width:'.round(($game->rating()/5)*100, 2).'%"></div>
+                            </div>
+                            <div class="average">
+                                ('.$game->reviews()->count().')
+                            </div>';
                 })
                 ->addColumn('action', function(Game $game){
                     return '<a class="btn btn-success" href="'.action('GameController@approve', ['id' => $game->id]).'">Approve Game</a>';
                 })
-                ->rawColumns(['name', 'genre', 'blockchain', 'device', 'status', 'nft', 'f2p', 'p2e', 'action'])
+                ->rawColumns(['name', 'genre', 'blockchain', 'device', 'status', 'nft', 'f2p', 'action'])
                 ->make(true);
         }
 

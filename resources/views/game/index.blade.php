@@ -10,6 +10,30 @@
             padding: 10px;
             border: 1px solid black;
         }
+
+        .ratings {
+            position: relative;
+            vertical-align: middle;
+            display: inline-block;
+            color: #b1b1b1;
+            overflow: hidden;
+        }
+        .full-stars {
+            position: absolute;
+            left: 0;
+            top: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            color: orange;
+        }
+        .empty-stars:before, .full-stars:before {
+            content:"\2605\2605\2605\2605\2605";
+            font-size: 20px;
+        }
+        .average {
+            vertical-align: middle;
+            display: inline-block;
+        }
     </style>
 @endpush
 
@@ -36,7 +60,7 @@
                     <th>Status</th>
                     <th>NFT</th>
                     <th>F2P</th>
-                    <th>P2E</th>
+                    <th>Rating</th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -62,7 +86,7 @@
                     {data: 'status', name: 'status'},
                     {data: 'nft', name: 'nft'},
                     {data: 'f2p', name: 'f2p'},
-                    {data: 'p2e', name: 'p2e'}
+                    {data: 'rating', name: 'rating'}
                 ],
                 "paging":   false,
                 "ordering": false,

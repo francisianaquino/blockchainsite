@@ -22,7 +22,7 @@
                     <th>Status</th>
                     <th>NFT</th>
                     <th>F2P</th>
-                    <th>P2E</th>
+                    <th>Rating</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -49,7 +49,7 @@
                     {data: 'status', name: 'status'},
                     {data: 'nft', name: 'nft'},
                     {data: 'f2p', name: 'f2p'},
-                    {data: 'p2e', name: 'p2e'},
+                    {data: 'rating', name: 'rating'},
                     {data: 'action', name: 'action'},
                 ],
                 "paging":   false,

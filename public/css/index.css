@@ -425,7 +425,7 @@ input:checked+.slider:before{
     min-width:110px
 }
 .mainlist td:nth-of-type(6),.mainlist td:nth-of-type(7),.mainlist td:nth-of-type(8),.mainlist td:nth-of-type(9),.mainlist th:nth-of-type(3),.mainlist th:nth-of-type(4),.mainlist th:nth-of-type(5),.mainlist th:nth-of-type(6),.mainlist th:nth-of-type(7),.mainlist th:nth-of-type(8),.mainlist th:nth-of-type(9),.mainlist th:nth-of-type(12){
-    text-align:right
+    text-align:center
 }
 #mainbody thead a,#mainbody thead th,#mainbody thead span,#mainbody thead a:hover,#mainbody thead th:hover,#mainbody thead span:hover{
     color:#424242;
@@ -460,11 +460,11 @@ input:checked+.slider:before{
     color:#383737;
     text-transform:uppercase;
     display:block;
-    text-align:right;
+    text-align:center;
     white-space:nowrap
 }
 .mainlist>tbody>tr>td:nth-of-type(4),.mainlist>tbody>tr>td:nth-of-type(5){
-    text-align:right
+    text-align:center
 }
 .mainlist>tbody>tr>td:nth-of-type(6) a{
     font-weight:700;

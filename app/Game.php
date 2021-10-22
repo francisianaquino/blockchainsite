@@ -20,8 +20,6 @@ class Game extends Model
         'status',
         'nft',
         'f2p',
-        'p2e',
-        // 'p2e_score',
         'is_approved'
     ];
 
@@ -31,5 +29,21 @@ class Game extends Model
 
     public function reviews() {
         return $this->hasMany(Review::class, 'game_id', 'id');
+    }
+
+    public function rating() {
+        $total_rating = 0;
+        foreach($this->reviews()->get() as $review) {
+            $total_rating += $review->rating;
+        }
+
+        if ($this->reviews()->count() > 0) {
+            $average_rating = $total_rating / $this->reviews()->count();
+        }
+        else {
+            $average_rating = 0;
+        }
+
+        return round($average_rating, 1);
     }
 }

@@ -14,9 +14,12 @@
             </div>
         @endif
 
-        <form action="{{ action('UserController@update', ['id' => $user->id]) }}" method="post" enctype="multipart/form-data">
+        <form action="{{ action('ProfileController@update') }}" method="post" enctype="multipart/form-data">
             @csrf
-            <h3>Edit User</h3>
+            <div class="d-flex align-items-center">
+                <img src="{{ asset('images/user-profile/'.$user->image) }}" class="rounded-circle" width="90">
+                <h3 class="ml-3">{{ $user->name }}</h3>
+            </div>
             <hr>
             <div class="form-group">
                 <label>Name</label>
@@ -35,18 +38,15 @@
             </div>
 
             <div class="form-group">
-                <label>Role</label>
-                <select class="select2 form-control @error('is_admin') is-invalid @enderror" name="is_admin" id="is_admin">
-                    <option value="1" @if($user->is_admin) selected @endif>Admin</option>
-                    <option value="0" @if(!$user->is_admin) selected @endif>User</option>
-                </select>
-                @error('is_admin')
+                <label>Image</label>
+                <input type="file" class="form-control @error('image') is-invalid @enderror" name="image" id="image">
+                @error('image')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
 
             <div class="text-right">
-                <a class="btn btn-danger" href="{{action('UserController@index')}}" role="button">Cancel</a>
+                <a class="btn btn-danger" href="{{action('GameController@index')}}" role="button">Cancel</a>
                 <input type="submit" name="send" value="Submit" class="btn btn-primary">
             </div>
         </form>
