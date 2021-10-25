@@ -188,7 +188,15 @@
                 @enderror
             </div>
 
-            <div class="text-right">
+            <div class="form-group">
+                <label>Game Screenshots</label>
+                <input type="file" class="form-control @error('screenshots') is-invalid @enderror" name="screenshots[]" id="screenshots" multiple="multiple">
+                @error('screenshots')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="text-right mt-4">
                 <a class="btn btn-danger" href="{{action('GameController@index')}}" role="button">Cancel</a>
                 <input type="submit" name="send" value="Submit" class="btn btn-primary">
             </div>

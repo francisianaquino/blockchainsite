@@ -204,6 +204,46 @@
                                         <div><span>Free-To-Play:</span>{!!$f2p!!}</div>
                                     </div>
                                     <hr />
+                                    @if (isset($game->screenshots))
+                                    <div class = "container">
+                                        <div class="row" id="game-gallery" data-toggle="modal" data-target="#gameModal">
+                                            @for($i = 0; $i < count($screenshots); $i++)
+                                                <img src="{{ asset('images/game-screenshots/'.$screenshots[$i]) }}" class="pr-1" height="70" data-target="#gameCarousel" data-slide-to="{{$i}}">
+                                            @endfor
+                                        </div>
+                                        <!-- modal -->
+                                        <div class="modal fade" id="gameModal" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">×</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                    <div id="gameCarousel" class="carousel slide" data-ride="carousel">
+                                                        <div class="carousel-inner">
+                                                            @for($i = 0; $i < count($screenshots); $i++)
+                                                                <div class="carousel-item {{ $i==0 ? 'active' : '' }}">
+                                                                    <img class="d-block w-100" src="{{ asset('images/game-screenshots/'.$screenshots[$i]) }}">
+                                                                </div>
+                                                            @endfor
+                                                        </div>
+                                                        <a class="carousel-control-prev" href="#gameCarousel" role="button" data-slide="prev">
+                                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                            <span class="sr-only">Previous</span>
+                                                        </a>
+                                                        <a class="carousel-control-next" href="#gameCarousel" role="button" data-slide="next">
+                                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                            <span class="sr-only">Next</span>
+                                                        </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
                                 </div>
                             </div>
 
@@ -275,7 +315,7 @@
                                         <div class="review-block-name"><a href="#">{{$review->user->name}}</a></div>
                                         <div class="review-block-date">{{$review->created_at->format("F j, Y, g:i a")}}</div>
                                     </div>
-                                    <div class="col-sm-9 col-md-10">
+                                    <div class="col-sm-6 col-md-8">
                                         <div class="review-block-rate">
                                         <span class="text-muted">{{$review->rating}}</span>
                                             @for($i = 1; $i <= 5; $i++)
@@ -285,6 +325,46 @@
                                         <div class="review-block-title">{{$review->subject}}</div>
                                         <div class="review-block-description">{{$review->description}}</div>
                                     </div>
+                                    @if (isset($review->screenshots))
+                                    <div class = "col-sm-3 col-md-2">
+                                        <div class="row" id="{{ 'review'.$review->id }}" data-toggle="modal" data-target="{{ '#reviewModal'.$review->id }}">
+                                            @for($i = 0; $i < count($img = explode(',', $review->screenshots)); $i++)
+                                                <img src="{{ asset('images/review-screenshots/'.$img[$i]) }}" class="pr-1" height="70" data-target="{{ '#reviewCarousel'.$review->id }}" data-slide-to="{{$i}}">
+                                            @endfor
+                                        </div>
+                                        <!-- modal -->
+                                        <div class="modal fade" id="{{ 'reviewModal'.$review->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">×</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                    <div id="{{ 'reviewCarousel'.$review->id }}" class="carousel slide" data-ride="carousel">
+                                                        <div class="carousel-inner">
+                                                            @for($i = 0; $i < count($img); $i++)
+                                                                <div class="carousel-item {{ $i==0 ? 'active' : '' }}">
+                                                                    <img class="d-block w-100" src="{{ asset('images/review-screenshots/'.$img[$i]) }}">
+                                                                </div>
+                                                            @endfor
+                                                        </div>
+                                                        <a class="carousel-control-prev" href="{{ '#reviewCarousel'.$review->id }}" role="button" data-slide="prev">
+                                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                            <span class="sr-only">Previous</span>
+                                                        </a>
+                                                        <a class="carousel-control-next" href="{{ '#reviewCarousel'.$review->id }}" role="button" data-slide="next">
+                                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                            <span class="sr-only">Next</span>
+                                                        </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endif
                                 </div>
                                 <hr />
                                 @endforeach
@@ -293,7 +373,7 @@
 
                         <div class="review-form">
                             <h5 class="mb-4">Leave Review</h5>
-                            <form action="{{action('ReviewController@store')}}" method="post">
+                            <form action="{{action('ReviewController@store')}}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="game_id" value="{{$game->id}}">
                                 <div class="d-flex align-items-center">
@@ -327,6 +407,13 @@
                                     <label>Description</label>
                                     <textarea type="text" class="form-control @error('description') is-invalid @enderror" name="description" id="description" value="{{ old('description') }}" rows="4"></textarea>
                                     @error('description')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label>Attach Screenshots</label>
+                                    <input type="file" class="form-control @error('screenshots') is-invalid @enderror" name="screenshots[]" id="screenshots" multiple="multiple">
+                                    @error('screenshots')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>

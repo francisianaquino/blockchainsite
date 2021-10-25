@@ -20,6 +20,7 @@ class Game extends Model
         'status',
         'nft',
         'f2p',
+        'screenshots',
         'is_approved'
     ];
 

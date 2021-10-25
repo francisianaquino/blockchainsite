@@ -20,6 +20,7 @@ class CreateReviewsTable extends Migration
             $table->string('subject');
             $table->text('description');
             $table->integer('rating');
+            $table->string('screenshots')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')

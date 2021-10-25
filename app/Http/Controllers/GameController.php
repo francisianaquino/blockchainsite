@@ -177,7 +177,8 @@ class GameController extends Controller
             'device' => 'required|array',
             'status' => 'required|string',
             'nft' => 'required|boolean',
-            'f2p' => 'required|string'
+            'f2p' => 'required|string',
+            'screenshots.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $imageName = str_replace(' ', '_', $request->name).'.'.$request->image->getClientOriginalExtension();
@@ -188,6 +189,19 @@ class GameController extends Controller
         $data['image'] = $imageName;
         $data['blockchain'] = implode(',', $request->blockchain);
         $data['device'] = implode(',', $request->device);
+
+        if ($request->hasfile('screenshots')) {
+            $count = 1;
+            $screenshots = array();
+            foreach($request->file('screenshots') as $file) {
+                $name = str_replace(' ', '_', $request->name).'_img'.$count.'.'.$file->getClientOriginalExtension();
+                $file->move(public_path('images/game-screenshots'), $name);
+                $screenshots[] = $name;
+                $count++;
+            }
+            $data['screenshots'] = implode(',', $screenshots);
+        }
+
         Game::create($data);
 
         return back()->with('success', 'Game Added');
@@ -249,6 +263,8 @@ class GameController extends Controller
             $f2p = '<a href="#" class="none" data-toggle="tooltip" data-placement="top" title="Game Required"" data-original-title="Game Required">Game</a>';
         }
 
+        $screenshots = explode(',', $game->screenshots);
+
         $total_ratings = $game->reviews()->count();
         $ratings = [
             '5_stars' => 0,
@@ -273,6 +289,7 @@ class GameController extends Controller
             'device' => $device,
             'nft' => $nft,
             'f2p' => $f2p,
+            'screenshots' => $screenshots,
             'total_ratings' => $total_ratings,
             'ratings' => $ratings,
             'average_stars' => $average_stars
@@ -439,7 +456,7 @@ class GameController extends Controller
                 ->addColumn('action', function(Game $game){
                     return '<a class="btn btn-success" href="'.action('GameController@approve', ['id' => $game->id]).'">Approve Game</a>';
                 })
-                ->rawColumns(['name', 'genre', 'blockchain', 'device', 'status', 'nft', 'f2p', 'action'])
+                ->rawColumns(['name', 'genre', 'blockchain', 'device', 'status', 'nft', 'f2p', 'rating', 'action'])
                 ->make(true);
         }
 

@@ -3,6 +3,31 @@
 @push('stylesheets')
     <link rel="stylesheet" href="{{ asset('css/index.css') }}">
     <link rel="stylesheet" href="{{ asset('css/default.css') }}">
+    <style>
+        .ratings {
+            position: relative;
+            vertical-align: middle;
+            display: inline-block;
+            color: #b1b1b1;
+            overflow: hidden;
+        }
+        .full-stars {
+            position: absolute;
+            left: 0;
+            top: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            color: orange;
+        }
+        .empty-stars:before, .full-stars:before {
+            content:"\2605\2605\2605\2605\2605";
+            font-size: 20px;
+        }
+        .average {
+            vertical-align: middle;
+            display: inline-block;
+        }
+    </style>
 @endpush
 
 @section('content')

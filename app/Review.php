@@ -8,7 +8,7 @@ class Review extends Model
 {
     protected $table = 'reviews';
 
-    protected $fillable = ['user_id', 'game_id', 'subject', 'description', 'rating'];
+    protected $fillable = ['user_id', 'game_id', 'subject', 'description', 'rating', 'screenshots'];
 
     public function user() {
         return $this->belongsTo(User::class, 'user_id', 'id');

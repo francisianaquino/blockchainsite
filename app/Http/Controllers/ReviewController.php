@@ -39,11 +39,24 @@ class ReviewController extends Controller
             'subject' => 'required|string',
             'description' => 'required|string',
             'rating' => 'required|integer|between:1,5',
+            'screenshots.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'game_id' => 'required|integer',
         ]);
 
         $data = $request->all();
         $data['user_id'] = $request->user()->id;
+
+        if ($request->hasfile('screenshots')) {
+            $count = 1;
+            $screenshots = array();
+            foreach($request->file('screenshots') as $file) {
+                $name = str_replace(' ', '_', $request->subject).'_img'.$count.'.'.$file->getClientOriginalExtension();
+                $file->move(public_path('images/review-screenshots'), $name);
+                $screenshots[] = $name;
+                $count++;
+            }
+            $data['screenshots'] = implode(',', $screenshots);
+        }
 
         Review::create($data);
         return back()->with('success', 'Review Added');
