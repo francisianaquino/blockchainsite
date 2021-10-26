@@ -4,6 +4,47 @@
     <link rel="stylesheet" href="{{ asset('css/view.css') }}">
     <link rel="stylesheet" href="{{ asset('css/default.css') }}">
     <style>
+        .image-wrap {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: middle;
+        }
+        .view-all {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            text-align: center;
+        }
+
+        .view-all:before {
+            display: inline-block;
+            content: "";
+            vertical-align: middle;
+            height: 100%;
+        }
+
+        .view-all-cover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            opacity: 0.4;
+        }
+
+        .view-all-text {
+            position: relative;
+            font-size: 16px;
+            font-family: sans-serif;
+            color: white;
+        }
+
+
+
         .rating-card, .review, .review-form {
             box-shadow:0 0 5px rgba(0,0,0,.2);
             border-radius:5px;
@@ -205,10 +246,18 @@
                                     </div>
                                     <hr />
                                     @if (isset($game->screenshots))
-                                    <div class = "container">
-                                        <div class="row" id="game-gallery" data-toggle="modal" data-target="#gameModal">
-                                            @for($i = 0; $i < count($screenshots); $i++)
-                                                <img src="{{ asset('images/game-screenshots/'.$screenshots[$i]) }}" class="pr-1" height="70" data-target="#gameCarousel" data-slide-to="{{$i}}">
+                                    <div class="">
+                                        <div id="game-gallery" data-toggle="modal" data-target="#gameModal">
+                                            @for($i = 0; $i < count($screenshots) && $i < 5; $i++)
+                                                <div class="image-wrap border">
+                                                    <img src="{{ asset('images/game-screenshots/'.$screenshots[$i]) }}" height="70" data-target="#gameCarousel" data-slide-to="{{$i}}">
+                                                    @if($i == 4 && count($screenshots) > 5)
+                                                        <div class="view-all">
+                                                            <span class="view-all-cover"></span>
+                                                            <span class="view-all-text">+{{count($screenshots)-$i}}</span>
+                                                        </div>
+                                                    @endif
+                                                </div>
                                             @endfor
                                         </div>
                                         <!-- modal -->
@@ -315,7 +364,7 @@
                                         <div class="review-block-name"><a href="#">{{$review->user->name}}</a></div>
                                         <div class="review-block-date">{{$review->created_at->format("F j, Y, g:i a")}}</div>
                                     </div>
-                                    <div class="col-sm-6 col-md-8">
+                                    <div class="col">
                                         <div class="review-block-rate">
                                         <span class="text-muted">{{$review->rating}}</span>
                                             @for($i = 1; $i <= 5; $i++)
@@ -326,10 +375,18 @@
                                         <div class="review-block-description">{{$review->description}}</div>
                                     </div>
                                     @if (isset($review->screenshots))
-                                    <div class = "col-sm-3 col-md-2">
-                                        <div class="row" id="{{ 'review'.$review->id }}" data-toggle="modal" data-target="{{ '#reviewModal'.$review->id }}">
-                                            @for($i = 0; $i < count($img = explode(',', $review->screenshots)); $i++)
-                                                <img src="{{ asset('images/review-screenshots/'.$img[$i]) }}" class="pr-1" height="70" data-target="{{ '#reviewCarousel'.$review->id }}" data-slide-to="{{$i}}">
+                                    <div class="col my-auto">
+                                        <div class="text-right" id="{{ 'review'.$review->id }}" data-toggle="modal" data-target="{{ '#reviewModal'.$review->id }}">
+                                            @for($i = 0; $i < count($img = explode(',', $review->screenshots)) && $i < 4; $i++)
+                                                <div class="image-wrap border">
+                                                    <img src="{{ asset('images/review-screenshots/'.$img[$i]) }}" height="70" data-target="{{ '#reviewCarousel'.$review->id }}" data-slide-to="{{$i}}">
+                                                    @if($i == 3 && count($img) > 4)
+                                                        <div class="view-all">
+                                                            <span class="view-all-cover"></span>
+                                                            <span class="view-all-text">+{{count($img)-$i}}</span>
+                                                        </div>
+                                                    @endif
+                                                </div>
                                             @endfor
                                         </div>
                                         <!-- modal -->
