@@ -24,6 +24,9 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
     Route::post('/game', 'GameController@store');
     Route::get('/game/pending', 'GameController@pending');
     Route::get('/game/pending/{id}', 'GameController@approve');
+    Route::get('/game/{id}/edit', 'GameController@edit');
+    Route::post('/game/{id}/update', 'GameController@update');
+    Route::get('/game/{id}/destroy', 'GameController@destroy');
     
     Route::get('/announcement/create', 'AnnouncementController@create');
     Route::post('/announcement', 'AnnouncementController@store');
@@ -40,4 +43,5 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
 });
 
 Route::get('/game/{id}', 'GameController@show');
+
 Auth::routes(['verify' => true]);

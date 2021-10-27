@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Game;
 use App\Announcement;
+use Auth;
 use Yajra\DataTables\Facades\DataTables;
 
 use Illuminate\Http\Request;
@@ -304,7 +305,20 @@ class GameController extends Controller
      */
     public function edit($id)
     {
-        //
+        $game = Game::find($id);
+
+        if (Auth::user()->id != $game->user_id) {
+            abort(401, 'You are not authorized to edit this game');
+        }
+
+        $blockchain = explode(',', $game->blockchain);
+        $device = explode(',', $game->device);
+
+        return view('game.edit', [
+            'game' => $game,
+            'blockchain' => $blockchain,
+            'device' => $device
+        ]);
     }
 
     /**
@@ -316,7 +330,47 @@ class GameController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|string',
+            'description' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'genre' => 'required|string',
+            'blockchain' => 'required|array',
+            'device' => 'required|array',
+            'status' => 'required|string',
+            'nft' => 'required|boolean',
+            'f2p' => 'required|string',
+            'screenshots.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $data = $request->all();
+        $data['blockchain'] = implode(',', $request->blockchain);
+        $data['device'] = implode(',', $request->device);
+
+        if ($request->hasfile('screenshots')) {
+            $imageName = str_replace(' ', '_', $request->name).'.'.$request->image->getClientOriginalExtension();
+            $request->image->move(public_path('images/game-profile'), $imageName);
+            $data['image'] = $imageName;
+        }
+
+        if ($request->hasfile('screenshots')) {
+            $count = 1;
+            $screenshots = array();
+            foreach($request->file('screenshots') as $file) {
+                $name = str_replace(' ', '_', $request->name).'_img'.$count.'.'.$file->getClientOriginalExtension();
+                $file->move(public_path('images/game-screenshots'), $name);
+                $screenshots[] = $name;
+                $count++;
+            }
+            $data['screenshots'] = implode(',', $screenshots);
+        }
+
+        $data['is_approved'] = 0;
+
+        $game = Game::find($id);
+        $game->update($data);
+
+        return back()->with('success', 'Game Edited');
     }
 
     /**
@@ -327,7 +381,10 @@ class GameController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $game = Game::find($id);
+        $game->delete();
+
+        return redirect(action('ProfileController@index'));
     }
 
     public function pending() {
