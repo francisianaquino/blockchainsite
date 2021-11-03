@@ -83,7 +83,11 @@
 
             <div class="form-group">
                 <label>Genre</label>
-                <input type="text" class="form-control @error('description') is-invalid @enderror" name="genre" id="genre" placeholder="eg. Breeding,Card,PVP" value="{{ old('genre') }}">
+                <select class="select2 form-control @error('genre') is-invalid @enderror" name="genre[]" id="genre" multiple="multiple">
+                    @foreach($genre as $g)
+                        <option value="{{$g->genre}}">{{strtoupper($g->genre)}}</option>
+                    @endforeach
+                </select>
                 @error('genre')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror

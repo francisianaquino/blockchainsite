@@ -83,7 +83,11 @@
 
             <div class="form-group">
                 <label>Genre</label>
-                <input type="text" class="form-control @error('description') is-invalid @enderror" name="genre" id="genre" placeholder="eg. Breeding,Card,PVP" value="{{ $game->genre }}">
+                <select class="select2 form-control @error('genre') is-invalid @enderror" name="genre[]" id="genre" multiple="multiple">
+                    @foreach($all_genre as $g)
+                        <option value="{{$g->genre}}">{{strtoupper($g->genre)}}</option>
+                    @endforeach
+                </select>
                 @error('genre')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
@@ -212,6 +216,7 @@
                 width: '100%'
             });
 
+            $('#genre').val({!! json_encode($genre) !!});
             $('#blockchain').val({!! json_encode($blockchain) !!});
             $('#device').val({!! json_encode($device) !!});
             $('#status').val({!! json_encode($game->status) !!});

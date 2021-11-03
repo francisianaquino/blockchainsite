@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Game;
 use App\Announcement;
+use App\Genre;
 use Auth;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -158,7 +159,10 @@ class GameController extends Controller
      */
     public function create()
     {
-        return view('game.create');
+        $genre = Genre::orderBy('genre', 'asc')->get();
+        return view('game.create', [
+            'genre' => $genre
+        ]);
     }
 
     /**
@@ -173,7 +177,7 @@ class GameController extends Controller
             'name' => 'required|string',
             'description' => 'required|string',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'genre' => 'required|string',
+            'genre' => 'required|array',
             'blockchain' => 'required|array',
             'device' => 'required|array',
             'status' => 'required|string',
@@ -188,6 +192,7 @@ class GameController extends Controller
         $data = $request->all();
         $data['user_id'] = $request->user()->id;
         $data['image'] = $imageName;
+        $data['genre'] = implode(',', $request->genre);
         $data['blockchain'] = implode(',', $request->blockchain);
         $data['device'] = implode(',', $request->device);
 
@@ -311,13 +316,18 @@ class GameController extends Controller
             abort(401, 'You are not authorized to edit this game');
         }
 
+        $all_genre = Genre::orderBy('genre', 'asc')->get();
+
+        $genre = explode(',', $game->genre);
         $blockchain = explode(',', $game->blockchain);
         $device = explode(',', $game->device);
 
         return view('game.edit', [
             'game' => $game,
+            'genre' => $genre,
             'blockchain' => $blockchain,
-            'device' => $device
+            'device' => $device,
+            'all_genre' => $all_genre
         ]);
     }
 
@@ -334,7 +344,7 @@ class GameController extends Controller
             'name' => 'required|string',
             'description' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'genre' => 'required|string',
+            'genre' => 'required|array',
             'blockchain' => 'required|array',
             'device' => 'required|array',
             'status' => 'required|string',
@@ -344,6 +354,7 @@ class GameController extends Controller
         ]);
 
         $data = $request->all();
+        $data['genre'] = implode(',', $request->genre);
         $data['blockchain'] = implode(',', $request->blockchain);
         $data['device'] = implode(',', $request->device);
 

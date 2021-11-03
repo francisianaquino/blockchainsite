@@ -27,6 +27,10 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
     Route::get('/game/{id}/edit', 'GameController@edit');
     Route::post('/game/{id}/update', 'GameController@update');
     Route::get('/game/{id}/destroy', 'GameController@destroy');
+
+    Route::get('/genre', 'GenreController@index');
+    Route::post('/genre', 'GenreController@store');
+    Route::get('/genre/{id}/destroy', 'GenreController@destroy');
     
     Route::get('/announcement/create', 'AnnouncementController@create');
     Route::post('/announcement', 'AnnouncementController@store');
