@@ -66,6 +66,7 @@
                                         @if (Auth::user()->is_admin)
                                             <a class="dropdown-item" href="{{ action('GameController@pending') }}">Pending Games</a>
                                             <a class="dropdown-item" href="{{ action('AnnouncementController@create') }}">Announcement</a>
+                                            <a class="dropdown-item" href="{{ action('GenreController@index') }}">Genre</a>
                                             <a class="dropdown-item" href="{{ action('UserController@index') }}">User Management</a>
                                         @endif
 
