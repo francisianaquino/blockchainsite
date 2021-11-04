@@ -96,38 +96,9 @@
             <div class="form-group">
                 <label>Blockchain</label>
                 <select class="select2 form-control @error('blockchain') is-invalid @enderror" name="blockchain[]" id="blockchain" multiple="multiple">
-                    <option value="Ethereum">Ethereum</option>
-                    <option value="Enjin">Enjin</option>
-                    <option value="Bitcoin">Bitcoin</option>
-                    <option value="Polygon">Polygon</option>
-                    <option value="Binance">Binance</option>
-                    <option value="Solana">Solana</option>
-                    <option value="Cardano">Cardano</option>
-                    <option value="Immutable-X">Immutable-X</option>
-                    <option value="WAX">WAX</option>
-                    <option value="Avalanche">Avalanche</option>
-                    <option value="EOS">EOS</option>
-                    <option value="TRON">TRON</option>
-                    <option value="Hive">Hive</option>
-                    <option value="Flow">Flow</option>
-                    <option value="VeChain">VeChain</option>
-                    <option value="Phantasma-Chain">Phantasma-Chain</option>
-                    <option value="KardiaChain">KardiaChain</option>
-                    <option value="Ronin">Ronin</option>
-                    <option value="NEO">NEO</option>
-                    <option value="ZENZO">ZENZO</option>
-                    <option value="POA">POA</option>
-                    <option value="Chain-Games">Chain-Games</option>
-                    <option value="Steem">Steem</option>
-                    <option value="Waves">Waves</option>
-                    <option value="Nebulas">Nebulas</option>
-                    <option value="Litecoin">Litecoin</option>
-                    <option value="BSV">BSV</option>
-                    <option value="Klaytn">Klaytn</option>
-                    <option value="Polkadot">Polkadot</option>
-                    <option value="IOST">IOST</option>
-                    <option value="Loom">Loom</option>
-                    <option value="Other">Other</option>
+                    @foreach($all_blockchain as $b)
+                        <option value="{{$b->cryptocurrency}}">{{$b->cryptocurrency}}</option>
+                    @endforeach
                 </select>
                 @error('blockchain')
                     <div class="invalid-feedback">{{ $message }}</div>

@@ -31,6 +31,10 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
     Route::get('/genre', 'GenreController@index');
     Route::post('/genre', 'GenreController@store');
     Route::get('/genre/{id}/destroy', 'GenreController@destroy');
+
+    Route::get('/blockchain', 'BlockchainController@index');
+    Route::post('/blockchain', 'BlockchainController@store');
+    Route::get('/blockchain/{id}/destroy', 'BlockchainController@destroy');
     
     Route::get('/announcement/create', 'AnnouncementController@create');
     Route::post('/announcement', 'AnnouncementController@store');

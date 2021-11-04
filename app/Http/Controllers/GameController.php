@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Game;
 use App\Announcement;
 use App\Genre;
+use App\Blockchain;
 use Auth;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -160,8 +161,11 @@ class GameController extends Controller
     public function create()
     {
         $genre = Genre::orderBy('genre', 'asc')->get();
+        $blockchain = Blockchain::orderBy('cryptocurrency', 'asc')->get();
+
         return view('game.create', [
-            'genre' => $genre
+            'genre' => $genre,
+            'blockchain' => $blockchain,
         ]);
     }
 
@@ -317,6 +321,7 @@ class GameController extends Controller
         }
 
         $all_genre = Genre::orderBy('genre', 'asc')->get();
+        $all_blockchain = Blockchain::orderBy('cryptocurrency', 'asc')->get();
 
         $genre = explode(',', $game->genre);
         $blockchain = explode(',', $game->blockchain);
@@ -327,7 +332,8 @@ class GameController extends Controller
             'genre' => $genre,
             'blockchain' => $blockchain,
             'device' => $device,
-            'all_genre' => $all_genre
+            'all_genre' => $all_genre,
+            'all_blockchain' => $all_blockchain,
         ]);
     }
 
