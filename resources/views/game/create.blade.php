@@ -99,6 +99,7 @@
                     @foreach($blockchain as $b)
                         <option value="{{$b->cryptocurrency}}">{{$b->cryptocurrency}}</option>
                     @endforeach
+                    <option value="Other">Other</option>
                 </select>
                 @error('blockchain')
                     <div class="invalid-feedback">{{ $message }}</div>
