@@ -48,6 +48,8 @@ Route::group(['middleware' => ['auth', 'verified']], function() {
 
     Route::get('/profile', 'ProfileController@index');
     Route::post('/profile', 'ProfileController@update');
+
+    Route::get('/mygames', 'MyGamesController@index');
 });
 
 Route::get('/game/{id}', 'GameController@show');

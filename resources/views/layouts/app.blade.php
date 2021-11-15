@@ -72,6 +72,7 @@
                                         @endif
 
                                         <a class="dropdown-item" href="{{ action('ProfileController@index') }}">View Profile</a>
+                                        <a class="dropdown-item" href="{{ action('MyGamesController@index') }}">My Games</a>
                                         
                                         <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
